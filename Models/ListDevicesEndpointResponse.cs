@@ -7,10 +7,10 @@ namespace weather_station.Models
      * Model for Ambuient Weather API 'List Devices' endpoint
      */
 
-    public class ListDevicesEndpointResponse
+    public sealed record ListDevicesEndpointResponse
     {
 
-        public class Info
+        public sealed record Info
         {
             [JsonPropertyName("name")]
             public string? Name { get; set; }
@@ -19,7 +19,7 @@ namespace weather_station.Models
             public Coordinates Coords { get; set; }
         }
 
-        public class Coordinates
+        public sealed record Coordinates
         {
             [JsonPropertyName("address")]
             public string Address { get; set; }
@@ -37,7 +37,7 @@ namespace weather_station.Models
             public string? Location { get; set; }
         }
 
-        public class GeoData
+        public sealed record GeoData
         {
             [JsonPropertyName("coordinates")]
             public Decimal[] Coordinates { get; set; }
@@ -46,7 +46,7 @@ namespace weather_station.Models
             public string Type { get; set; }
         }
 
-        public class LatitudeLongitude
+        public sealed record LatitudeLongitude
         {
             [JsonPropertyName("lat")]
             public Decimal? Latitude { get; set; }
@@ -66,7 +66,7 @@ namespace weather_station.Models
     }
 
     // https://github.com/ambient-weather/api-docs/wiki/Device-Data-Specs
-    public class LastData
+    public sealed record LastData
     {
         [JsonPropertyName("baromabsin")]
         public decimal? AbsolutePressureInHg { get; set; }
