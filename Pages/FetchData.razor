@@ -2,47 +2,56 @@
 
 <PageTitle>Weather forecast</PageTitle>
 
-@using weather_station.Data
-@inject WeatherForecastService ForecastService
+@using weather_station.Models
+@using weather_station.Services
+
+@inject AmbientWeatherService weatherService
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@if (forecast == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
+    <h3>The weather for @forecast.DeviceInfo.Coords.Address on @forecast.WeatherData.Date is:</h3>
+
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Outdoor Temp. (F)</th>
+                <th>Indoor Temp. (F)</th>
+                <th>Dew Point</th>
+                <th>Humidity</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
-            {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@forecast.WeatherData.OutdoorTempature</td>
+                    <td>@forecast.WeatherData.IndoorTemperature</td>
+                    <td>@forecast.WeatherData.DewPoint</td>
+                    <td>@forecast.WeatherData.Humidity</td>
                 </tr>
-            }
         </tbody>
     </table>
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    ListDevicesEndpointResponse? forecast;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+
+        ApiConfig config = new ApiConfig
+            {
+                ApiKey = System.Configuration.ConfigurationManager.AppSettings["ApiKey"],
+                ApplicationKey = System.Configuration.ConfigurationManager.AppSettings["ApplicationKey"],
+                MacAddress = System.Configuration.ConfigurationManager.AppSettings["MacAddress"]
+            };
+
+        forecast = await weatherService.ListDevices(config);
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using weather_station.Data;
+using weather_station.Models;
+using weather_station.Services;
 
 namespace weather_station
 {
@@ -13,7 +14,8 @@ namespace weather_station
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddSingleton<WeatherForecastService>();
+            // builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddSingleton<AmbientWeatherService>();
 
             var app = builder.Build();
 
